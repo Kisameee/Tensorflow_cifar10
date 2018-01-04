@@ -25,6 +25,7 @@ wheels/
 .installed.cfg
 *.egg
 
+*__init__.py
 #init_py
 __init__.py
 
