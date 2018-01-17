@@ -1,6 +1,6 @@
 import keras
 import numpy as np
-from keras.activations import *
+from keras.layers.advanced_activations import *
 from keras.callbacks import *
 from keras.datasets import *
 from keras.layers import *
@@ -12,10 +12,13 @@ from keras.optimizers import *
 
 experiment_name = "CIFAR_10_E500_D512_C16.3.3_Lr0.01_Relu"
 
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+# chargement du dataset
 
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
 y_train = keras.utils.to_categorical(y_train)
 y_test = keras.utils.to_categorical(y_test)
+
+#Reshape de nos données pour avoir la valeurs de chaque pixel
 
 x_train = np.reshape(x_train, (-1, 32, 32, 3)) / 255.0
 x_test = np.reshape(x_test, (-1, 32, 32, 3)) / 255.0
@@ -34,27 +37,26 @@ dense = 10
 
 model = Sequential()
 
-print("hello")
+
+print("Model training will start soon")
 # model.add(Conv2D(48, (3, 3), padding='same', input_shape=(3, 32, 32)))
 # model.add(MaxPool2D((2, 2)))
 # model.add(Flatten())
 # model.add(Dense(dense, activation=tanh))
-#
-#
-# model.compile(sgd(lr=step), mse, metrics=[categorical_accuracy])
-#
-# model.fit(x_test, y_test, batch, epochs, tb_callback, validation_data=(x_test, y_test))
+
 
 model.add(Conv2D(16, (3, 3), padding='same',  activation='relu', input_shape=(32, 32, 3)))
 model.add(Conv2D(16, (3, 3), padding='same',  activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
+###############################################
 model.add(Conv2D(16, (3, 3), activation='relu'))
 model.add(Conv2D(16, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
+###############################################
 model.add(Flatten())
 model.add(Dense(512, activation='relu'))
 model.add(Dropout(0.5))
